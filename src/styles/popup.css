@@ -1,0 +1,25 @@
+body {
+  width: 256px;
+}
+
+header {
+  padding: 8px;
+}
+
+header > h1 {
+  margin: 4px;
+}
+
+button {
+  background-color: #5081b2;
+  margin-left: 8px;
+  color: #ffffff;
+  border-radius: 3px;
+  border-width: 0px;
+  font-size: 14px;
+  padding: 4px 8px;
+  position: relative;
+  text-decoration: none;
+  font-family: "open-sans", sans-serif, AppleEmoji, SegoeUIEmoji, EmojiOne;
+  letter-spacing: -0.2px;
+}

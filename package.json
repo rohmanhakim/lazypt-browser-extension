@@ -2,8 +2,23 @@
   "name": "ptutils",
   "version": "1.0.0",
   "description": "Browser extension utility for Pivotal Tracker",
-  "main": "index.js",
+  "main": "app.js",
   "author": "Muhammad Arif Rohman Hakim",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "concurrently": "^6.3.0",
+    "path": "^0.12.7",
+    "sass": "^1.43.4",
+    "webpack": "^5.61.0",
+    "webpack-cli": "^4.9.1"
+  },
+  "scripts": {
+    "prod": "sass --no-source-map --style=compressed src/styles:dist && webpack --mode=production",
+    "dev": "concurrently npm:watch:*",
+    "watch:sass": "sass --watch --update --style=expanded src/styles:dist",
+    "watch:webpack": "webpack --watch --mode=development"
+  }
 }
