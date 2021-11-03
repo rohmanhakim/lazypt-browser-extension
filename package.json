@@ -1,0 +1,9 @@
+{
+  "name": "ptutils",
+  "version": "1.0.0",
+  "description": "Browser extension utility for Pivotal Tracker",
+  "main": "index.js",
+  "author": "Muhammad Arif Rohman Hakim",
+  "license": "MIT",
+  "private": false
+}
