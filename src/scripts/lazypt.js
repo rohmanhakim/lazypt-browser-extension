@@ -1,3 +1,5 @@
+import tippy from 'tippy.js';
+
 export default class LazyPt {
 
   constructor() {
@@ -57,6 +59,16 @@ export default class LazyPt {
     let button = document.createElement("button");
     button.textContent = "Branch Name";
     button.classList.add('lazypt-button');
+    tippy(button, {
+      content: 'Branch name copied!',
+      trigger: 'click',
+      hideOnClick: false,
+      onShow(instance) {
+        setTimeout(() => {
+          instance.hide();
+        }, 1000);
+      }
+    });
     return button;
   }
 
@@ -64,6 +76,17 @@ export default class LazyPt {
     let button = document.createElement("button");
     button.textContent = "Commit Message";
     button.classList.add('lazypt-button');
+    button.addEventListener("click", this.showTooltip, false);
+    tippy(button, {
+      content: 'Commit message copied!',
+      trigger: 'click',
+      hideOnClick: false,
+      onShow(instance) {
+        setTimeout(() => {
+          instance.hide();
+        }, 1000);
+      }
+    });
     return button;
   }
 

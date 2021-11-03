@@ -38,7 +38,7 @@
     {
       "matches": ["https://*.pivotaltracker.com/*"],
       "js": ["dist/content.js"],
-      "css" : ["dist/lazypt.css"]
+      "css" : ["dist/lazypt.css","dist/tippy.css"]
     }
   ]
   
