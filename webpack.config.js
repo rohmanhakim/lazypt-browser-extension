@@ -3,9 +3,10 @@ const path = require('path');
 
 module.exports = {
   context: __dirname,
-
+  devtool: 'cheap-module-source-map',
   entry: {
-    app: './src/scripts/app.js',
+    popup: './src/scripts/popup.js',
+    background: './src/scripts/background.js'
   },
 
   output: {
