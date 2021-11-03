@@ -22,9 +22,14 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { 
+        {
           context: __dirname + '/src/pages',
           from: '**'
+        },
+        {
+          context: __dirname + '/src/images',
+          from: '**',
+          to: 'images'
         },
       ],
     }),
