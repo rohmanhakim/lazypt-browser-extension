@@ -1,4 +1,4 @@
-export default class PtUtils {
+export default class LazyPt {
 
   constructor() {  }
   

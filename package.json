@@ -1,5 +1,5 @@
 {
-  "name": "ptutils",
+  "name": "lazypt",
   "version": "1.0.0",
   "description": "Browser extension utility for Pivotal Tracker",
   "main": "app.js",
