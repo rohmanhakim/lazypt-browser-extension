@@ -37,7 +37,8 @@
   "content_scripts": [
     {
       "matches": ["https://*.pivotaltracker.com/*"],
-      "js": ["dist/content.js"]
+      "js": ["dist/content.js"],
+      "css" : ["dist/lazypt.css"]
     }
   ]
   
