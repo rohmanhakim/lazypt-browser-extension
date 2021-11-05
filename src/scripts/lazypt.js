@@ -18,8 +18,10 @@ export default class LazyPt {
     let observer = new MutationObserver((mutations, me) => {
       let panel = document.querySelector(".panel[data-type='my_work']");
       if (panel) {
+        let storyPreviewsWithoutButtons = panel.querySelectorAll(".story[data-aid='StoryPreviewItem']:not(.lazypt-story-preview)");
+
         this.boardName = document.querySelector('.tc_context_name').textContent;
-        this.appendButtonsToAllStoryPreview(panel);
+        this.appendButtonsStoryPreviews(storyPreviewsWithoutButtons);
         return;
       }
     });
@@ -31,12 +33,12 @@ export default class LazyPt {
     });
   }
 
-  appendButtonsToAllStoryPreview(panel) {
-    let storyPreviews = panel.querySelectorAll(".story[data-aid='StoryPreviewItem']");
+  appendButtonsStoryPreviews(storyPreviews) {
     storyPreviews.forEach(story => this.appendButtons(story))
   }
 
   appendButtons(storyElement) {
+    storyElement.classList.add('lazypt-story-preview');
     let buttonContainer = storyElement.querySelector('.lazypt-button-container');
     if(buttonContainer === null) {
       let story = this.generateStoryObject(storyElement);
