@@ -21,7 +21,7 @@ export default class LazyPt {
         let storyPreviewsWithoutButtons = panel.querySelectorAll(".story[data-aid='StoryPreviewItem']:not(.lazypt-story-preview)");
 
         this.boardName = document.querySelector('.tc_context_name').textContent;
-        this.appendButtonsStoryPreviews(storyPreviewsWithoutButtons);
+        this.appendButtonsToStoryPreviews(storyPreviewsWithoutButtons);
         return;
       }
     });
@@ -33,7 +33,8 @@ export default class LazyPt {
     });
   }
 
-  appendButtonsStoryPreviews(storyPreviews) {
+  
+  appendButtonsToStoryPreviews(storyPreviews) {
     storyPreviews.forEach(story => this.appendButtons(story))
   }
 
