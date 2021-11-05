@@ -102,11 +102,11 @@ export default class LazyPt {
   }
 
   createBranchNameClickListener(story) {
-    return () => console.log('branch name: ' + this.generateBranchName(story));
+    return () => navigator.clipboard.writeText(this.generateBranchName(story));
   }
 
   createCommitMessageClickListener(story) {
-    return () => console.log('commit msg: ' + this.generateCommitMessage(story));
+    return () => navigator.clipboard.writeText(this.generateCommitMessage(story));
   }
 
   generateBranchName(story) {
