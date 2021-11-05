@@ -106,7 +106,7 @@ export default class LazyPt {
   }
 
   createCommitMessageClickListener(story) {
-    return () => console.log('commit msg: ' + story);
+    return () => console.log('commit msg: ' + this.generateCommitMessage(story));
   }
 
   generateBranchName(story) {
@@ -114,6 +114,11 @@ export default class LazyPt {
     let storyType = this.convertToKebabCase(story.type);
     let storyTitle = this.convertToKebabCase(story.title);
     return `${board}/${storyType}/${story.id}-${storyTitle}`;
+  }
+
+  generateCommitMessage(story) {
+    let board = this.convertToKebabCase(this.boardName);
+    return `[#${story.id}][${board}] ${story.title}`;
   }
 
   convertToKebabCase(text) {
