@@ -19,8 +19,7 @@ export default class LazyPt {
       let panel = document.querySelector(".panel[data-type='my_work']");
       if (panel) {
         this.boardName = document.querySelector('.tc_context_name').textContent;
-        this.getAllStoryElements(panel);
-        me.disconnect();
+        this.appendButtonsToAllStoryPreview(panel);
         return;
       }
     });
@@ -32,22 +31,24 @@ export default class LazyPt {
     });
   }
 
-  getAllStoryElements(panel) {
-    let stories = panel.querySelectorAll(".story[data-aid='StoryPreviewItem']");
-    stories.forEach(story => this.appendButtons(story))
+  appendButtonsToAllStoryPreview(panel) {
+    let storyPreviews = panel.querySelectorAll(".story[data-aid='StoryPreviewItem']");
+    storyPreviews.forEach(story => this.appendButtons(story))
   }
 
   appendButtons(storyElement) {
-    let story = this.generateStoryObject(storyElement);
-    let onBranchNameClick = this.createBranchNameClickListener(story);
-    let onCommitMessageClick = this.createCommitMessageClickListener(story);
-    let buttonContainer = this.createButtonscontainer(onBranchNameClick, onCommitMessageClick);
-    let storyHeader = storyElement.firstChild;
-    let storyHeaderName = storyHeader.querySelector('.name');
-    storyHeader.style.minHeight = '124px';
-    storyHeader.appendChild(buttonContainer);
-    storyHeaderName.style.justifyContent = 'inherit';
-    console.log('story : ' + storyElement);
+    let buttonContainer = storyElement.querySelector('.lazypt-button-container');
+    if(buttonContainer === null) {
+      let story = this.generateStoryObject(storyElement);
+      let onBranchNameClick = this.createBranchNameClickListener(story);
+      let onCommitMessageClick = this.createCommitMessageClickListener(story);
+      let buttonContainer = this.createButtonscontainer(onBranchNameClick, onCommitMessageClick);
+      let storyHeader = storyElement.firstChild;
+      let storyHeaderName = storyHeader.querySelector('.name');
+      storyHeader.style.minHeight = '124px';
+      storyHeader.appendChild(buttonContainer);
+      storyHeaderName.style.justifyContent = 'inherit';
+    }
   }
 
   createButtonscontainer(onBranchNameClick, onCommitMessageClick) {
