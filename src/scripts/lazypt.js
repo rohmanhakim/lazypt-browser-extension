@@ -19,8 +19,10 @@ export default class LazyPt {
       let panel = document.querySelector(".panel[data-type='my_work']");
       if (panel) {
         let storyPreviewsWithoutButtons = panel.querySelectorAll(".story[data-aid='StoryPreviewItem']:not(.lazypt-story-preview)");
+        let expandedStoriesWithoutButtons = panel.querySelectorAll(".edit[data-aid='StoryDetailsEdit']:not(.lazypt-story-expanded)");
 
         this.boardName = document.querySelector('.tc_context_name').textContent;
+        this.appendButtonsToExpandedStories(expandedStoriesWithoutButtons);
         this.appendButtonsToStoryPreviews(storyPreviewsWithoutButtons);
         return;
       }
@@ -33,19 +35,27 @@ export default class LazyPt {
     });
   }
 
-  
-  appendButtonsToStoryPreviews(storyPreviews) {
-    storyPreviews.forEach(story => this.appendButtons(story))
+  appendButtonsToExpandedStories(expandedStories) {
+    expandedStories.forEach(story => this.appendButtons(story, 'expanded'))
   }
 
-  appendButtons(storyElement) {
-    storyElement.classList.add('lazypt-story-preview');
-    let buttonContainer = storyElement.querySelector('.lazypt-button-container');
+  
+  appendButtonsToStoryPreviews(storyPreviews) {
+    storyPreviews.forEach(story => this.appendButtons(story, 'preview'))
+  }
+
+  appendButtons(storyElement, type) {
+    storyElement.classList.add(`lazypt-story-${type}`);
+    let buttonContainer = storyElement.querySelector(`.lazypt-button-container.${type}`);
+    var story = {}
     if(buttonContainer === null) {
-      let story = this.generateStoryObject(storyElement);
+      if(type === 'preview')
+        story = this.createObjectFromStoryPreview(storyElement);
+      else if(type === 'expanded')
+        story = this.createObjectFromExpandedStory(storyElement);
       let onBranchNameClick = this.createBranchNameClickListener(story);
       let onCommitMessageClick = this.createCommitMessageClickListener(story);
-      let buttonContainer = this.createButtonscontainer(onBranchNameClick, onCommitMessageClick);
+      let buttonContainer = this.createButtonscontainer(type, onBranchNameClick, onCommitMessageClick);
       let storyHeader = storyElement.firstChild;
       let storyHeaderName = storyHeader.querySelector('.name');
       storyHeader.style.minHeight = '124px';
@@ -54,9 +64,10 @@ export default class LazyPt {
     }
   }
 
-  createButtonscontainer(onBranchNameClick, onCommitMessageClick) {
+  createButtonscontainer(type, onBranchNameClick, onCommitMessageClick) {
     let buttonContainer = document.createElement("div");
-    buttonContainer.classList.add('lazypt-button-container');
+    buttonContainer.classList.add(`lazypt-button-container`);
+    buttonContainer.classList.add(`lazypt-button-container-${type}`);
     buttonContainer.appendChild(this.createButtoncontainerHeader());
     buttonContainer.appendChild(this.createBranchNameButton(onBranchNameClick));
     buttonContainer.appendChild(this.createCommitMessageButton(onCommitMessageClick));
@@ -129,20 +140,31 @@ export default class LazyPt {
     return text.toLowerCase().replace(/[^a-zA-Z\d:]/gm,'-').replace(/-{2,}/gm,'-');
   }
 
-  generateStoryObject(storyElement) {
-    let id = storyElement.dataset['id'];
-    let title = storyElement.firstChild.querySelector('.tracker_markup').textContent;
-    let type = this.getStoryType(storyElement.classList);
-    let owner = storyElement.firstChild.querySelector('.owner').getAttribute('title');
-    let ownerInitial = storyElement.firstChild.querySelector('.owner').textContent;
-    let labels = Array.from(storyElement.firstChild.querySelector('.labels').children).map((label) => label.textContent);
+  createObjectFromStoryPreview(storyPreview) {
+    let id = storyPreview.dataset.id;
+    let title = storyPreview.firstChild.querySelector('.tracker_markup').textContent;
+    let type = this.getStoryType(storyPreview.classList);
+    let labels = Array.from(storyPreview.firstChild.querySelector('.labels').children).map((label) => label.textContent);
     let link = `https://www.pivotaltracker.com/story/show/${id}`;
     return {
       'id': id,
       'title': title,
       'type': type,
-      'owner': owner,
-      'ownerInitial': ownerInitial,
+      'labels': labels,
+      'link': link
+    }
+  }
+
+  createObjectFromExpandedStory(expandedStory) {
+    let id = expandedStory.parentElement.parentElement.parentElement.dataset.id;
+    let title = expandedStory.querySelector('textarea[name="story[name]"]').value;
+    let type = this.getStoryType(expandedStory.parentElement.parentElement.parentElement.classList);
+    let labels = Array.from(expandedStory.querySelector('div[data-aid="StoryLabelsMaker__contentContainer"]').childNodes).filter((item)=>item.dataset['aid']!=='LabelsSearch');
+    let link = `https://www.pivotaltracker.com/story/show/${id}`;
+    return {
+      'id': id,
+      'title': title,
+      'type': type,
       'labels': labels,
       'link': link
     }
