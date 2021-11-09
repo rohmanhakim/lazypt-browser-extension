@@ -174,7 +174,7 @@ export default class LazyPt {
     let storyType = null;
     if(classList.contains('feature')) storyType = 'feature';
     if(classList.contains('bug')) storyType = 'bug';
-    if(classList.contains('bug')) storyType = 'chore';
+    if(classList.contains('chore')) storyType = 'chore';
     return storyType;
   }
 }
